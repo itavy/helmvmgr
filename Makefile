@@ -17,14 +17,14 @@ all: test build
 
 .PHONY: test
 test:
-	go test -v \
+	GO111MODULE=on $(GO) test -v \
 	. \
 	./internal/ \
 	-count=1
 
 .PHONY: build
 build:
-	$(GO) build \
+	GO111MODULE=on $(GO) build \
 	-ldflags="-X helmvmgr/pkg/cmdcli.Version=$(BUILD_VERSION) \
 	-X helmvmgr/pkg/cmdcli.BuildTime=$(BUILD_TIME) \
 	-X helmvmgr/pkg/cmdcli.CommitHash=$(GIT_COMMIT_HASH)"
