@@ -9,7 +9,7 @@ import (
 )
 
 func TestMainProgram(t *testing.T) {
-	// don't launch etcd server when invoked via go test
+	// don't launch when invoked via go test
 	if strings.HasSuffix(os.Args[0], "helmvmgr.test") {
 		return
 	}
