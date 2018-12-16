@@ -1,30 +1,46 @@
 package cmdcli
 
 import (
-	"fmt"
 	"github.com/spf13/cobra"
+	"helmvmgr/internal"
 	"io"
 )
 
+var versionDesc = `Version:     %s
+Commit Hash: %s
+Build time:  %s
+`
 type versionCmd struct {
 	out io.Writer
-	version string
-	buildTime string
-	commitHash string
+	render utils.RenderFunc
+	Version string
+	BuildTime string
+	CommitHash string
+	outputFormat string
 }
+
+var versionTemplate string = `Version:    {{ .Version }}
+CommitHash: {{ .CommitHash }}
+BuildTime:  {{ .BuildTime }}
+`
 
 func (v *versionCmd) run() error {
-	fmt.Fprintf(v.out, "helmvmgr %s\n", v.version)
-
-	return nil
+	return v.render(utils.RenderOutputParameters{
+		Data:v,
+		Out:v.out,
+		Type:v.outputFormat,
+		Template: versionTemplate,
+	})
 }
 
-func newVersionCmd (out io.Writer, version string, buildTime string, commitHash string) *cobra.Command {
+func newVersionCmd (render utils.RenderFunc, out io.Writer, version string, buildTime string, commitHash string) *cobra.Command {
 	v := &versionCmd{
 		out: out,
-		version: version,
-		buildTime: buildTime,
-		commitHash: commitHash,
+		render: render,
+		Version: version,
+		BuildTime: buildTime,
+		CommitHash: commitHash,
+		outputFormat: outputFormat,
 	}
 	cmd := &cobra.Command{
 		Use: "version",
