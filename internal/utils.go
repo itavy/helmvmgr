@@ -3,6 +3,7 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
+	"gopkg.in/yaml.v2"
 	"helmvmgr/pkg"
 	"io"
 	"text/template"
@@ -38,6 +39,14 @@ func RenderOutput(rp RenderOutputParameters) error {
 		return nil
 	}
 
+	if rp.Type == "yaml" {
+		err := yaml.NewEncoder(rp.Out).Encode(rp.Data)
+		if err != nil {
+			return errors.HError("RO_03", err.Error())
+		}
+		return nil
+	}
 
-	return errors.HError("RO_03", fmt.Sprintf("Invalid type to render: %s.", rp.Type))
+
+	return errors.HError("RO_04", fmt.Sprintf("Invalid type to render: %s.", rp.Type))
 }

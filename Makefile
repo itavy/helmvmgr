@@ -17,7 +17,10 @@ all: test build
 
 .PHONY: test
 test:
-	@echo ">> TODO testing"
+	go test -v \
+	. \
+	./internal/ \
+	-count=1
 
 .PHONY: build
 build:

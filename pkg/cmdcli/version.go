@@ -14,8 +14,8 @@ type versionCmd struct {
 	out io.Writer
 	render utils.RenderFunc
 	Version string
-	BuildTime string
-	CommitHash string
+	BuildTime string `yaml:"buildTime"`
+	CommitHash string `yaml:"commitHash"`
 	outputFormat string
 }
 
